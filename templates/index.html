@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SQLite Chat Assistant</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-top: 20px;
+            font-size: 2.5rem;
+        }
+
+        /* Container for Input and Button */
+        .input-container {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        #query-input {
+            width: 400px;
+            padding: 12px;
+            font-size: 16px;
+            border: 2px solid #007bff;
+            border-radius: 8px;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+
+        #query-input:focus {
+            border-color: #0056b3;
+        }
+
+        #submit-btn {
+            padding: 12px 24px;
+            font-size: 16px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        #submit-btn:hover {
+            background-color: #0056b3;
+        }
+
+        /* Main Layout */
+        .container {
+            display: flex;
+            gap: 20px;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Reference Guide */
+        #reference-guide {
+            flex: 1;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        #reference-guide h2 {
+            color: #007bff;
+            margin-bottom: 15px;
+            font-size: 1.8rem;
+        }
+
+        #reference-guide ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        #reference-guide li {
+            margin-bottom: 15px;
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        .example {
+            font-family: monospace;
+            background-color: #f8f9fa;
+            padding: 5px 8px;
+            border-radius: 4px;
+            display: inline-block;
+            margin-top: 5px;
+        }
+
+        /* Result Panel */
+        #response {
+            flex: 2;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            white-space: pre-wrap;
+            font-family: monospace;
+            font-size: 1rem;
+            color: #333;
+        }
+
+        #response b {
+            color: #007bff;
+        }
+
+        /* Supported Queries Section */
+        #supported-queries {
+            background-color: #eef;
+            padding: 20px;
+            border-left: 4px solid #007bff;
+            border-radius: 8px;
+            margin: 20px auto;
+            max-width: 1200px;
+        }
+
+        #supported-queries b {
+            color: #007bff;
+            font-size: 1.2rem;
+        }
+
+        #supported-queries ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        #supported-queries li {
+            margin-bottom: 10px;
+            font-size: 1rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+
+            #query-input {
+                width: 100%;
+            }
+
+            .input-container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            #submit-btn {
+                width: 100%;
+                margin-top: 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <h1>SQLite Chat Assistant</h1>
+
+    <!-- Input and Button -->
+    <div class="input-container">
+        <input type="text" id="query-input" placeholder="Enter your query...">
+        <button id="submit-btn">Submit</button>
+    </div>
+
+    <!-- Main Layout -->
+    <div class="container">
+        <!-- Reference Guide on the Left -->
+        <div id="reference-guide">
+            <h2>Reference Guide</h2>
+            <ul>
+                <li>
+                    <strong>Department Names:</strong>
+                    <ul>
+                        <li>Sales</li>
+                        <li>Marketing</li>
+                        <li>Engineering</li>
+                    </ul>
+                </li>
+                <li>
+                    <strong>Query Format:</strong>
+                    <ul>
+                        <li>Use natural language queries.</li>
+                        <li>Example: <span class="example">Show me all employees in the Sales department.</span></li>
+                    </ul>
+                </li>
+                <li>
+                    <strong>Date Format:</strong>
+                    <ul>
+                        <li>Use <span class="example">YYYY-MM-DD</span> format for dates.</li>
+                        <li>Example: <span class="example">List all employees hired after 2021-01-01.</span></li>
+                    </ul>
+                </li>
+                <li>
+                    <strong>Salary Queries:</strong>
+                    <ul>
+                        <li>Example: <span class="example">What is the total salary expense for the Marketing
+                                department?</span></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Result Panel on the Right -->
+        <div id="response">Response will appear here...</div>
+    </div>
+
+    <!-- Supported Queries Section -->
+    <div id="supported-queries">
+        <b>Supported Queries:</b>
+        <ul>
+            <li>Show me all employees in the Sales department.</li>
+            <li>Who is the manager of the Engineering department?</li>
+            <li>List all employees hired after 2021-01-01.</li>
+            <li>What is the total salary expense for the Marketing department?</li>
+        </ul>
+    </div>
+
+    <script>
+        document.getElementById('submit-btn').addEventListener('click', function () {
+            const query = document.getElementById('query-input').value.trim();
+
+            if (!query) {
+                alert("Please enter a query.");
+                return;
+            }
+
+            fetch('/query', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ query: query }),
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    const responseDiv = document.getElementById('response');
+                    if (data.results) {
+                        responseDiv.innerHTML = `<b>Results:</b><br><pre>${JSON.stringify(data.results, null, 2)}</pre>`;
+                    } else if (data.message) {
+                        responseDiv.innerHTML = `<b>Message:</b><br>${data.message}`;
+                    } else if (data.error) {
+                        responseDiv.innerHTML = `<b>Error:</b><br>${data.error}`;
+                    } else {
+                        responseDiv.innerHTML = "No data received.";
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    document.getElementById('response').innerHTML = `<b>Error:</b><br>${error.message}`;
+                });
+        });
+    </script>
+</body>
+
+</html>
