@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SQLite Chat Assistant</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        #query-input {
+            width: 300px;
+            padding: 10px;
+            font-size: 16px;
+        }
+
+        #submit-btn {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        #response {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        #supported-queries {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #eef;
+            border-left: 4px solid #007bff;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>SQLite Chat Assistant</h1>
+    <input type="text" id="query-input" placeholder="Enter your query...">
+    <button id="submit-btn">Submit</button>
+
+    <div id="supported-queries">
+        <b>Supported Queries:</b>
+        <ul>
+            <li>Show me all employees in the Sales department.</li>
+            <li>Who is the manager of the Engineering department?</li>
+            <li>List all employees hired after 2021-01-01.</li>
+            <li>What is the total salary expense for the Marketing department?</li>
+        </ul>
+    </div>
+
+    <div id="response"></div>
+
+    <script>
+        document.getElementById('submit-btn').addEventListener('click', function () {
+            const query = document.getElementById('query-input').value;
+
+            fetch('/query', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ query: query }),
+            })
+                .then(response => response.json())
+                .then(data => {
+                    let responseDiv = document.getElementById('response');
+                    if (data.results) {
+                        responseDiv.innerHTML = "<b>Results:</b><br>" + JSON.stringify(data.results, null, 2);
+                    } else if (data.message) {
+                        responseDiv.innerText = data.message;
+                    } else if (data.error) {
+                        responseDiv.innerText = "Error: " + data.error;
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        });
+    </script>
+</body>
+
+</html>
